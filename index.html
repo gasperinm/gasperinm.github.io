@@ -25,6 +25,16 @@
                     }
                 });
             }
+
+            function addTask() {
+                var inputTaskName = document.getElementById("taskName").value;
+                if (inputTaskName == "") {
+                    alert("Task name cannot be empty");
+                }
+                else {
+                    alert(JSON.stringify({"title":inputTaskName, "date": d.toDateString()})));
+                }
+            }
         </script>
     </body>
 </html>
