@@ -6,10 +6,9 @@
     <body>
         <h1>Welcome!</h1>
         <h2 id="date"></h2>
+        <button onclick="alert('TO-DO: implement')">Add task</button>
         <br/> <br/>
         <div id="tasks"></div>
-        <br/>
-        <button onclick="alert('TO-DO: implement')">Add task</button>
         <script>
             var d = new Date();
             document.getElementById("date").innerHTML = d.toDateString();
@@ -21,7 +20,9 @@
             }
             else {
                 tasks.forEach(element => {
-                    tasksDiv.innerHTML += element.title + "<br/>";
+                    if (element.date == d.toDateString()) {
+                        tasksDiv.innerHTML += "<a>" + element.title + "</a><br/>";
+                    }
                 });
             }
         </script>
