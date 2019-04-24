@@ -4,11 +4,26 @@
         <title>gasperinm - index</title>
     </head>
     <body>
-        Welcome!
-
+        <h1>Welcome!</h1>
+        <h2 id="date"></h2>
+        <br/> <br/>
+        <div id="tasks"></div>
+        <br/>
+        <button onclick="alert('TO-DO: implement')">Add task</button>
         <script>
             var d = new Date();
-            document.write(d.getDay() + "." + d.getMonth() + "." + d.getFullYear());
+            document.getElementById("date").innerHTML = d.toDateString();
+
+            var tasksDiv = document.getElementById("tasks");
+            var tasks = JSON.parse(localStorage.getItem("tasks"));
+            if (tasks == null) {
+                tasksDiv.innerHTML = "No tasks today.";
+            }
+            else {
+                tasks.forEach(element => {
+                    tasksDiv.innerHTML += element.title + "<br/>";
+                });
+            }
         </script>
     </body>
 </html>
