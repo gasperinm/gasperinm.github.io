@@ -40,7 +40,7 @@
         var tasks = JSON.parse(localStorage.getItem("tasks"));
         if (tasks == null) {
             tasksDiv.innerHTML = "No tasks today.";
-            localStorage.setItem("tasks", "[{}]");
+            localStorage.setItem("tasks", "[]");
         }
         else {
             tasks.forEach(element => {
