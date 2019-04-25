@@ -51,7 +51,7 @@
                     tasksDiv.innerHTML += "<div class='button complete' id='" + element.id + "' onclick='showDescription(this.id)'>" + element.title + "</div> <button id='" + element.id + "' class='button' onclick='deleteTask(this.id)'>Delete task</button><br/><hr/><br/>";
                 }
                 else if (element.date != d.toDateString() && element.completed == "false") {
-                    tasks.push({ "id": element.id.toString() + 1, "title": element.title, "description": element.description, "date": d.toDateString(), "completed": "false" });
+                    tasks.push({ "id": element.id.toString() + 1, "title": element.title, "description": element.description + "\n" + element.date, "date": d.toDateString(), "completed": "false" });
                     deleteTask(element.id);
                 }
             });
