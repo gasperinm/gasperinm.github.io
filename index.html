@@ -24,11 +24,11 @@
 <body>
     <h1>Welcome!</h1>
     <h2 id="date"></h2>
-    <input id="taskName" type="text" maxlength="22"/> <br />
+    <input id="taskName" type="text" maxlength="22" /> <br />
     <input id="taskDescription" type="text" /> <br />
     <button onclick="addTask()" class="button">Add task</button>
     <br /> <br />
-    <hr/>
+    <hr />
     <div id="tasks"></div>
     <script>
         var shown = false;
@@ -38,7 +38,7 @@
 
         var tasksDiv = document.getElementById("tasks");
         var tasks = JSON.parse(localStorage.getItem("tasks"));
-        if (tasks == null) {
+        if (tasks == null || tasks.length == 0) {
             tasksDiv.innerHTML = "No tasks today.";
             localStorage.setItem("tasks", "[]");
         }
@@ -73,6 +73,9 @@
         function deleteTask(id) {
             tasks = tasks.filter(task => task.id != id);
             localStorage.setItem("tasks", JSON.stringify(tasks));
+            if (tasks.length == 0) {
+                localStorage.clear();
+            }
             window.location.reload(true);
         }
 
