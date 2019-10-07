@@ -23,6 +23,10 @@
 
 <body>
     <h1>Welcome!</h1>
+
+    <nav>
+        <a href="tic-tac-toe.html" >Tic-Tac-Toe</a>
+    </nav>
     <h2 id="date"></h2>
     <input id="taskName" type="text" maxlength="22" /> <br />
     <input id="taskDescription" type="text" /> <br />
@@ -107,6 +111,13 @@
             tasks.push({ "id": id + 1, "title": task.title, "description": task.description, "date": task.date, "completed": "true" });
             deleteTask(id);
         }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+    <script>
+        var book = ePub("E:/Torenti/Ostalo/The Dark Tower series by Stephen King/The Dark Tower series (9 books)/4 Wizard and Glass - Stephen King.epub");
+        var rendition = book.renderTo("area");
+        rendition.display();
     </script>
 </body>
 

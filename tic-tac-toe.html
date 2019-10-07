@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tic-Tac-Toe</title>
+</head>
+
+<body>
+
+    <h1>Tic-Tac-Toe</h1>
+
+    <p>Coding challenge #1, started7.10.2019</p>
+
+    <div id="display"></div>
+
+    <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">Your browser does not support the
+        HTML5 canvas tag.</canvas>
+
+    <script>
+        var player = "X"; //X goes first, TO-DO: make it a choice
+        var game = new Array("-", "-", "-", "-", "-", "-", "-", "-", "-");
+        var gameOver = false;
+
+        function drawGameField() {
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+
+            //Vertical lines
+            ctx.beginPath();
+            ctx.moveTo(200, 0);
+            ctx.lineTo(200, 800);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(400, 0);
+            ctx.lineTo(400, 800);
+            ctx.stroke();
+
+            //Horizontal lines
+            ctx.beginPath();
+            ctx.moveTo(0, 200);
+            ctx.lineTo(800, 200);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(0, 400);
+            ctx.lineTo(800, 400);
+            ctx.stroke();
+
+            c.addEventListener("mousedown", getPosition, false);
+
+            display("X goes first.");
+        }
+
+        function getPosition(event) {
+            var c = document.getElementById("myCanvas");
+
+            var x = event.x;
+            var y = event.y;
+
+            x -= c.offsetLeft;
+            y -= c.offsetTop;
+
+            // alert("x:" + x + " y:" + y);
+
+            if (!gameOver) {
+                if ((x >= 0 && x <= 200) && (y >= 0 && y <= 200)) { //left
+                    if (game[0] == "-") {
+                        if (player == "X") {
+                            drawX(0, 0, 200, 200, 200, 0, 0, 200);
+
+                            game[0] = "X";
+
+                            player = "O";
+                        } else if (player == "O") {
+                            var mid = calculateMid(0, 200, 0, 200);
+
+                            drawO(mid[0], mid[1]);
+
+                            game[0] = "O";
+
+                            player = "X";
+                        }
+                    }
+                } else if ((x >= 0 && x <= 200) && (y >= 200 && y <= 400)) {
+                    if (game[3] == "-") {
+                        if (player == "X") {
+                            drawX(0, 200, 200, 400, 200, 200, 0, 400);
+
+                            game[3] = "X";
+
+                            player = "O";
+                        } else if (player == "O") {
+                            var mid = calculateMid(0, 200, 200, 400);
+
+                            drawO(mid[0], mid[1]);
+
+                            game[3] = "O";
+
+                            player = "X";
+                        }
+                    }
+                } else if ((x >= 0 && x <= 200) && (y >= 400 && y <= 800)) {
+                    if (game[6] == "-") {
+                        if (player == "X") {
+                            drawX(0, 400, 200, 600, 200, 400, 0, 600);
+
+                            game[6] = "X";
+
+                            player = "O";
+                        } else if (player == "O") {
+                            var mid = calculateMid(0, 200, 400, 600);
+
+                            drawO(mid[0], mid[1]);
+
+                            game[6] = "O";
+
+                            player = "X";
+                        }
+                    }
+                } else if ((x >= 200 && x <= 400) && (y >= 0 && y <= 200)) { //middle
+                    if (game[1] == "-") {
+                        if (player == "X") {
+                            drawX(200, 0, 400, 200, 400, 0, 200, 200);
+
+                            game[1] = "X";
+
+                            player = "O";
+                        } else if (player == "O") {
+                            var mid = calculateMid(200, 400, 0, 200);
+
+                            drawO(mid[0], mid[1]);
+
+                            game[1] = "O";
+
+                            player = "X";
+                        }
+                    }
+                } else if ((x >= 200 && x <= 400) && (y >= 200 && y <= 400)) {
+                    if (game[4] == "-") {
+                        if (player == "X") {
+                            drawX(200, 200, 400, 400, 400, 200, 200, 400);
+
+                            game[4] = "X";
+
+                            player = "O";
+                        } else if (player == "O") {
+                            var mid = calculateMid(200, 400, 200, 400);
+
+                            drawO(mid[0], mid[1]);
+
+                            game[4] = "O";
+
+                            player = "X";
+                        }
+                    }
+                } else if ((x >= 200 && x <= 400) && (y >= 400 && y <= 800)) {
+                    if (game[7] == "-") {
+                        if (player == "X") {
+                            drawX(200, 400, 400, 600, 400, 400, 200, 600);
+
+                            game[7] = "X";
+
+                            player = "O";
+                        } else if (player == "O") {
+                            var mid = calculateMid(200, 400, 400, 600);
+
+                            drawO(mid[0], mid[1]);
+
+                            game[7] = "O";
+
+                            player = "X";
+                        }
+                    }
+                } else if ((x >= 400 && x <= 600) && (y >= 0 && y <= 200)) { //right
+                    if (game[2] == "-") {
+                        if (player == "X") {
+                            drawX(400, 0, 600, 200, 600, 0, 400, 200);
+
+                            game[2] = "X";
+
+                            player = "O";
+                        } else if (player == "O") {
+                            var mid = calculateMid(400, 600, 0, 200);
+
+                            drawO(mid[0], mid[1]);
+
+                            game[2] = "O";
+
+                            player = "X";
+                        }
+                    }
+                } else if ((x >= 400 && x <= 600) && (y >= 200 && y <= 400)) {
+                    if (game[5] == "-") {
+                        if (player == "X") {
+                            drawX(400, 200, 600, 400, 600, 200, 400, 400);
+
+                            game[5] = "X";
+
+                            player = "O";
+                        } else if (player == "O") {
+                            var mid = calculateMid(400, 600, 200, 400);
+
+                            drawO(mid[0], mid[1]);
+
+                            game[5] = "O";
+
+                            player = "X";
+                        }
+                    }
+                } else if ((x >= 400 && x <= 600) && (y >= 400 && y <= 800)) {
+                    if (game[8] == "-") {
+                        if (player == "X") {
+                            drawX(400, 400, 600, 600, 600, 400, 400, 600);
+
+                            game[8] = "X";
+
+                            player = "O";
+                        } else if (player == "O") {
+                            var mid = calculateMid(400, 600, 400, 600);
+
+                            drawO(mid[0], mid[1]);
+
+                            game[8] = "O";
+
+                            player = "X";
+                        }
+                    }
+                }
+            }
+
+            if (player == "X") {
+                display("X's turn.");
+            }
+
+            else {
+                display("O's turn.");
+            }
+
+            var isWin = checkWin(game);
+
+            if (isWin) {
+                if (player == "X") {
+                    display("O wins!");
+                }
+
+                else {
+                    display("X wins!");
+                }
+
+                gameOver = true;
+            }
+
+            else {
+
+                var isDraw = checkDraw(game);
+
+                if (isDraw) {
+                    display("It's a draw!");
+
+                    gameOver = true;
+                }
+            }
+        }
+
+        function drawO(x, y) {
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+
+            ctx.beginPath();
+            ctx.arc(x, y, 100, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
+
+        function drawX(leftUpperCorner1,
+            leftUpperCorner2,
+            rightBottomCorner1,
+            rightBottomCorner2,
+            rightUpperCorner1,
+            rightUpperCorner2,
+            leftBottomCorner1,
+            leftBottomCorner2) {
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+
+            ctx.beginPath();
+            ctx.moveTo(leftUpperCorner1, leftUpperCorner2);
+            ctx.lineTo(rightBottomCorner1, rightBottomCorner2);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(rightUpperCorner1, rightUpperCorner2);
+            ctx.lineTo(leftBottomCorner1, leftBottomCorner2);
+            ctx.stroke();
+        }
+
+        function calculateMid(x1, x2, y1, y2) {
+            var midX = (x1 + x2) / 2;
+            var midY = (y1 + y2) / 2;
+
+            return new Array(midX, midY);
+        }
+
+        function checkWin(game) {
+            //horizontal wins
+            if (game[0] == "X" && game[1] == "X" && game[2] == "X") {
+                return true;
+            }
+
+            else if (game[0] == "O" && game[1] == "O" && game[2] == "O") {
+                return true;
+            }
+
+            if (game[3] == "X" && game[4] == "X" && game[5] == "X") {
+                return true;
+            }
+
+            else if (game[3] == "O" && game[4] == "O" && game[5] == "O") {
+                return true;
+            }
+
+            if (game[6] == "X" && game[7] == "X" && game[8] == "X") {
+                return true;
+            }
+
+            else if (game[6] == "O" && game[7] == "O" && game[8] == "O") {
+                return true;
+            }
+
+            //vertical wins
+            else if (game[0] == "X" && game[3] == "X" && game[6] == "X") {
+                return true;
+            }
+
+            else if (game[0] == "O" && game[3] == "O" && game[6] == "O") {
+                return true;
+            }
+
+            else if (game[1] == "X" && game[4] == "X" && game[7] == "X") {
+                return true;
+            }
+
+            else if (game[1] == "O" && game[4] == "O" && game[7] == "O") {
+                return true;
+            }
+
+            else if (game[2] == "X" && game[5] == "X" && game[8] == "X") {
+                return true;
+            }
+
+            else if (game[2] == "O" && game[5] == "O" && game[8] == "O") {
+                return true;
+            }
+
+            //diagonal wins
+            else if (game[0] == "X" && game[4] == "X" && game[8] == "X") {
+                return true;
+            }
+
+            else if (game[0] == "O" && game[4] == "O" && game[8] == "O") {
+                return true;
+            }
+
+            else if (game[2] == "X" && game[4] == "X" && game[6] == "X") {
+                return true;
+            }
+
+            else if (game[2] == "O" && game[4] == "O" && game[6] == "O") {
+                return true;
+            }
+
+            return false;
+        }
+
+        function checkDraw(game) {
+            for (var i = 0; i < game.length; i++) {
+                if (game[i] == "-") {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function display(text) {
+            document.getElementById("display").innerHTML = text;
+        }
+
+        drawGameField();
+    </script>
+
+</body>
+
+</html>
