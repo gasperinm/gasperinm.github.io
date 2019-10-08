@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>gasperinm - index</title>
+    <style>
+        .button {
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            width: 173px;
+        }
+
+        .complete {
+            background-color: #4CAF50;
+        }
+
+        .notcomplete {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Useless task manager!</h1>
+
+    <nav>
+        <a href="index.html">Home</a>
+    </nav>
+    <h2 id="date"></h2>
+    <input id="taskName" type="text" maxlength="22" /> <br />
+    <input id="taskDescription" type="text" /> <br />
+    <button onclick="addTask()" class="button">Add task</button>
+    <br /> <br />
+    <hr />
+    <div id="tasks"></div>
+    <script>
+        var shown = false;
+
+        var d = new Date();
+        document.getElementById("date").innerHTML = d.toDateString();
+
+        var tasksDiv = document.getElementById("tasks");
+        var tasks = JSON.parse(localStorage.getItem("tasks"));
+        if (tasks == null || tasks.length == 0) {
+            tasksDiv.innerHTML = "No tasks today.";
+            localStorage.setItem("tasks", "[]");
+        }
+        else {
+            tasks.forEach(element => {
+                if (element.date == d.toDateString() && element.completed == "false") {
+                    tasksDiv.innerHTML += "<div class='button notcomplete' id='" + element.id + "' onclick='showDescription(this.id)'>" + element.title + "</div> <br/> <div id='description" + element.id + "'>" + element.description + "</div><br/> <button id='" + element.id + "' class='button' onclick='deleteTask(this.id)'>Delete task</button> <button id='" + element.id + "' class='button' onclick='completeTask(this.id)'>Complete task</button><br/><hr/><br/>";
+                }
+                else if (element.date == d.toDateString() && element.completed == "true") {
+                    tasksDiv.innerHTML += "<div class='button complete' id='" + element.id + "' onclick='showDescription(this.id)'>" + element.title + "</div> <button id='" + element.id + "' class='button' onclick='deleteTask(this.id)'>Delete task</button><br/><hr/><br/>";
+                }
+                else if (element.date != d.toDateString() && element.completed == "false") {
+                    tasks.push({ "id": element.id.toString() + 1, "title": element.title, "description": element.description + "\n" + element.date, "date": d.toDateString(), "completed": "false" });
+                    deleteTask(element.id);
+                }
+            });
+        }
+
+        function addTask() {
+            var inputTaskName = document.getElementById("taskName").value;
+            var inputTaskDescription = document.getElementById("taskDescription").value;
+            if (inputTaskName == "") {
+                alert("Task name cannot be empty");
+            }
+            else {
+                tasks.push({ "id": tasks.length, "title": inputTaskName, "description": inputTaskDescription, "date": d.toDateString(), "completed": "false" });
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                window.location.reload(true);
+            }
+        }
+
+        function deleteTask(id) {
+            tasks = tasks.filter(task => task.id != id);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            if (tasks.length == 0) {
+                localStorage.clear();
+            }
+            window.location.reload(true);
+        }
+
+        function showDescription(id) {
+            var task;
+            tasks.forEach(element => {
+                if (element.id == id) {
+                    task = element;
+                }
+            });
+
+            if (!shown) {
+                document.getElementById("description" + id).innerHTML = task.description;
+            }
+            else {
+                document.getElementById("description" + id).innerHTML = "";
+            }
+            shown = !shown;
+        }
+
+        function completeTask(id) {
+            var task;
+            tasks.forEach(element => {
+                if (element.id == id) {
+                    task = element;
+                }
+            });
+
+            tasks.push({ "id": id + 1, "title": task.title, "description": task.description, "date": task.date, "completed": "true" });
+            deleteTask(id);
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+    <script>
+        var book = ePub("E:/Torenti/Ostalo/The Dark Tower series by Stephen King/The Dark Tower series (9 books)/4 Wizard and Glass - Stephen King.epub");
+        var rendition = book.renderTo("area");
+        rendition.display();
+    </script>
+</body>
+
+</html>
